@@ -85,6 +85,70 @@ def create_comment_db(news: str, author: str, content: str, data: datetime):
     }
 
 
+# Запросы на редактирования
+
+def update_users_db(user_id: int, role_id: int, username: str, password: str):
+    ''' Обновление записи пользователя '''
+    user = Users.get(Users.id == user_id)
+    user.role_id = role_id
+    user.username = username
+    user.password = password
+    user.save()
+    return {
+        'id': user.id,
+        'role_id': user.role_id,
+        'username': user.username,
+        'password': user.password
+    }
+
+
+def update_roles_db(rol_id: int, name: str):
+    ''' Обновление roles'''
+    rol = Roles.get(Roles.id == rol_id)
+    rol.name = name
+    rol.save()
+    return {
+        'id': rol.id,
+        'name': rol.name
+    }
+
+
+def update_news_db(new_id: int, heading: str,
+                   content: str, author: str, data: datetime):
+    ''' Обновление news'''
+    new = News.get(News.id == new_id)
+    new.heading = heading
+    new.content = content
+    new.author = author
+    new.data = data
+    new.save()
+    return {
+        'id': new.id,
+        'heading': new.heading,
+        'content': new.content,
+        'author': new.author,
+        'data': new.data
+    }
+
+
+def update_comment_db(com_id: int, news: str,
+                      author: str, content: str, data: datetime):
+    ''' Обновление comment'''
+    com = Comments.get(Comments.id == com_id)
+    com.news = news
+    com.author = author
+    com.content = content
+    com.data = data
+    com.save()
+    return {
+        'id': com.id,
+        'news': com.news,
+        'author': com.author,
+        'content': com.content,
+        'data': com.data
+    }
+
+
 # Методы просмотра
 
 
@@ -137,6 +201,34 @@ def create_news(heading: str, content: str, author: str, data: datetime):
 def create_comment(news: str, author: str, content: str, data: datetime):
     ''' Создание новой записи comment'''
     return create_comment_db(news, author, content, data)
+
+
+# Методы обновления
+
+@app.put('/users/{user_id}')
+def update_user(user_id: int, role_id: int, username: str, password: str):
+    ''' Обновление пользователя '''
+    return update_users_db(user_id, role_id, username, password)
+
+
+@app.put('/roles/{rol_id}')
+def update_roles(rol_id: int, name: str):
+    ''' обновление roles'''
+    return update_roles_db(rol_id, name)
+
+
+@app.put('/news/{new_id}')
+def update_news(new_id: int, heading: str,
+                content: str, author: str, data: datetime):
+    ''' Обновление news'''
+    return update_news_db(new_id, heading, content, author, data)
+
+
+@app.put('/comment/{com_id}')
+def update_comment(com_id: int, news: str,
+                   author: str, content: str, data: datetime):
+    ''' Обновление comment'''
+    return update_comment_db(com_id, news, author, content, data)
 
 
 db.connect()

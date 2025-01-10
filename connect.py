@@ -29,6 +29,7 @@ class Roles(Database):
 
 class News(Database):
     ''' News'''
+    id = IntegerField(primary_key=True)
     heading = CharField()
     content = CharField()
     author = CharField()
@@ -37,6 +38,7 @@ class News(Database):
 
 class Comments(Database):
     ''' Comments'''
+    id = IntegerField(primary_key=True)
     news = CharField()
     author = CharField()
     content = CharField()
