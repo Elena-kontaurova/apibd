@@ -149,6 +149,32 @@ def update_comment_db(com_id: int, news: str,
     }
 
 
+# Запросы на удаление
+
+def delete_users_db(user_id: int):
+    ''' удаление users'''
+    user = Users.get(Users.id == user_id)
+    user.delete_instance()
+
+
+def delete_roles_db(rol_id: int):
+    ''' удаление roles'''
+    rol = Roles.get(Roles.id == rol_id)
+    rol.delete_instance()
+
+
+def delete_news_db(new_id: int):
+    ''' удаление news'''
+    new = News.get(News.id == new_id)
+    new.delete_instance()
+
+
+def delete_comment_db(com_id: int):
+    ''' удаление comment'''
+    com = Comments.get(Comments.id == com_id)
+    com.delete_instance()
+
+
 # Методы просмотра
 
 
@@ -229,6 +255,32 @@ def update_comment(com_id: int, news: str,
                    author: str, content: str, data: datetime):
     ''' Обновление comment'''
     return update_comment_db(com_id, news, author, content, data)
+
+# методы удаления
+
+
+@app.delete('/del_users/{user_id}')
+def delete_users(user_id: int):
+    ''' удаление users'''
+    return delete_users_db(user_id)
+
+
+@app.delete('/del_roles/{rol_id}')
+def delete_roles(rol_id: int):
+    ''' удаление roles'''
+    return delete_roles_db(rol_id)
+
+
+@app.delete('/del_news/{new_id}')
+def delete_news(new_id: int):
+    ''' удааление news'''
+    return delete_news_db(new_id)
+
+
+@app.delete('/del_comment/{com_id}')
+def delete_comment(com_id: int):
+    ''' удаление comment'''
+    return delete_comment_db(com_id)
 
 
 db.connect()
