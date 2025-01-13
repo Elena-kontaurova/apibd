@@ -2,7 +2,7 @@
 from datetime import datetime
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from connect import db
 from dao.user_dao import UsersDAO
 from dao.rol_dao import RolesDAO
@@ -14,6 +14,12 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 # Методы просмотра
+
+
+@app.get('/', response_class=HTMLResponse)
+async def main(request: Request):
+    ''' Получение всех users'''
+    return templates.TemplateResponse("main.html", {'request': request})
 
 
 @app.get('/users', response_class=HTMLResponse)
@@ -52,7 +58,8 @@ def get_all_comment(request: Request):
 
 
 @app.post('/user_create')
-def create_user(role_id: int, username: str, password: str):
+def create_user(role_id: int = Form(...), username: str = Form(...),
+                password: str = Form(...)):
     ''' Создание новой записи users'''
     return UsersDAO.create_user_db(role_id, username, password)
 
