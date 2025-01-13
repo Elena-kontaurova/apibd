@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport", content="width=device-width, initial-scale=1.0">
+    <title>News Table</title>
+</head>
+<body>
+    <h1> Таблица News</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Heading</th>
+                <th>Content</th>
+                <th>Author</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ne in new %}
+            <tr>
+                <td>{{ ne.id }}</td>
+                <td>{{ ne.heading }}</td>
+                <td>{{ ne.content }}</td>
+                <td>{{ ne.author }}</td>
+                <td>{{ ne.data }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

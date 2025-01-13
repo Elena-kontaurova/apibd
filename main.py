@@ -1,6 +1,8 @@
 ''' main для fastapi + mysql'''
 from datetime import datetime
-from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, Request
 from connect import db
 from dao.user_dao import UsersDAO
 from dao.rol_dao import RolesDAO
@@ -9,26 +11,33 @@ from dao.comment_dao import CommentDAO
 
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 # Методы просмотра
 
 
-@app.get('/users')
-def get_all_users():
+@app.get('/users', response_class=HTMLResponse)
+async def get_all_users(request: Request):
     ''' Получение всех users'''
-    return UsersDAO.get_all_users_db()
+    users = UsersDAO.get_all_users_db()
+    return templates.TemplateResponse("users.html", {"request": request,
+                                                     "users": users})
 
 
-@app.get('/roles')
-def get_all_roles():
+@app.get('/roles', response_class=HTMLResponse)
+async def get_all_roles(request: Request):
     ''' Получение всез roles'''
-    return RolesDAO.get_all_roles_db()
+    rol = RolesDAO.get_all_roles_db()
+    return templates.TemplateResponse('roles.html', {"request": request,
+                                                     'role': rol})
 
 
-@app.get('/news')
-def get_all_news():
+@app.get('/news', response_class=HTMLResponse)
+async def get_all_news(request: Request):
     ''' получение всех news'''
-    return NewsDAO.get_all_news_db()
+    ne = NewsDAO.get_all_news_db()
+    return templates.TemplateResponse('news.html', {'request': request,
+                                                    'new': ne})
 
 
 @app.get('/comment')

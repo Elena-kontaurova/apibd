@@ -9,7 +9,8 @@ class UsersDAO:
         ''' получение всех users'''
         users = Users.select()
         return [{'id': user.id, 'role_id': user.role_id,
-                 'username': user.username} for user in users]
+                 'username': user.username, 'password': user.password}
+                for user in users]
 
     @staticmethod
     def create_user_db(role_id: int, username: str, password: str):
