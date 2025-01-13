@@ -40,10 +40,12 @@ async def get_all_news(request: Request):
                                                     'new': ne})
 
 
-@app.get('/comment')
-def get_all_comment():
+@app.get('/comment', response_class=HTMLResponse)
+def get_all_comment(request: Request):
     ''' Получение всез comment'''
-    return CommentDAO.get_all_comment_db()
+    comm = CommentDAO.get_all_comment_db()
+    return templates.TemplateResponse('comment.html', {'request': request,
+                                                       'com': comm})
 
 
 # Методы создания
