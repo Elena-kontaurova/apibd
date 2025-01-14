@@ -33,5 +33,18 @@
     <button class="my-button", onclick="window.location.href='http://127.0.0.1:8000/'">
         Вернутся на главную
     </button>
+    <h1>Создать запись News</h1>
+    <form id="newsForm", method="post", action="http://127.0.0.1:8000/news_create">
+        <label for="Heading">Heading:</label>
+        <input type="text", id="heading", name="heading"><br><br>
+        <label for="Content">Content:</label>
+        <input type="text", id="content", name="content"><br><br>
+        <label for="Author">Author:</label>
+        <input type="text", id="author", name="author"><br><br>
+        <label for="Data">Data:</label>
+        <input type="datetime", id="data", name="data"><br><br>
+        <DatePicker/>
+        <button type="submit", class="my-button">Создать запись</button>
+    </form>
 </body>
 </html>

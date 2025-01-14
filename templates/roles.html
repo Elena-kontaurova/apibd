@@ -27,5 +27,12 @@
     <button class="my-button", onclick="window.location.href='http://127.0.0.1:8000/'">
         Вернутся на главную
     </button>
+    <h1>Создать запись Roles</h1>
+    <form id="rolesFrom", method="post", action="http://127.0.0.1:8000/roles_create">
+        <label for="name">name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <button type="submit", class="my-button">Создать запись</button>
+    </form>
 </body>
 </html>

@@ -58,22 +58,30 @@ def get_all_comment(request: Request):
 
 
 @app.post('/user_create')
-def create_user(role_id: int = Form(...), username: str = Form(...),
-                password: str = Form(...)):
+def create_user(request: Request, role_id: int = Form(...),
+                username: str = Form(...), password: str = Form(...)):
     ''' Создание новой записи users'''
-    return UsersDAO.create_user_db(role_id, username, password)
+    UsersDAO.create_user_db(role_id, username, password)
+    return templates.TemplateResponse('greate/users_create.html',
+                                      {'request': request})
 
 
 @app.post('/roles_create')
-def create_roles(name: str):
+def create_roles(request: Request, name: str = Form(...)):
     ''' Создание новой записи roles'''
-    return RolesDAO.create_roles_db(name)
+    RolesDAO.create_roles_db(name)
+    return templates.TemplateResponse('greate/roles_create.html',
+                                      {'request': request})
 
 
 @app.post('/news_create')
-def create_news(heading: str, content: str, author: str, data: datetime):
+def create_news(request: Request, heading: str = Form(...),
+                content: str = Form(...), author: str = Form(...),
+                data: datetime = Form(...)):
     ''' Создание новой записи news'''
-    return NewsDAO.create_news_db(heading, content, author, data)
+    NewsDAO.create_news_db(heading, content, author, data)
+    return templates.TemplateResponse('greate/news_create.html',
+                                      {'request': request})
 
 
 @app.post('/comment_create')
