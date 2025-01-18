@@ -6,7 +6,7 @@
     <title>Table Comment</title>
 </head>
 <body>
-    <h1>Таблица Table</h1>
+    <h1>Таблица Comment</h1>
     <table border="1">
         <thead>
             <tr>
@@ -33,9 +33,18 @@
     <button class="my-button", onclick="window.location.href='http://127.0.0.1:8000/'">
         Вернутся на главную
     </button>
+    <h1>Создать запись Comment</h1>
     <form id="commentForm", method="post", action="http://127.0.0.1:8000/comment_create">
-        <label for="news">News</label>
-        
+        <label for="news">News:</label>
+        <input type="text", id="news", name="news"><br><br>
+        <label for="author">Author:</label>
+        <input type="text", id="author", name="author"><br><br>
+        <label for="content">Content:</label>
+        <input type="text", id="content", name="content"><br><br>
+        <label for="data">Data:</label>
+        <input type="datetime", id="data", name="data"><br><br>
+
+        <button type="submit", class="my-button">Создать запись</button>
     </form>
 </body>
 </html>

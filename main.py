@@ -85,9 +85,13 @@ def create_news(request: Request, heading: str = Form(...),
 
 
 @app.post('/comment_create')
-def create_comment(news: str, author: str, content: str, data: datetime):
+def create_comment(request: Request,
+                   news: str = Form(...), author: str = Form(...),
+                   content: str = Form(...), data: datetime = Form(...)):
     ''' Создание новой записи comment'''
-    return CommentDAO.create_comment_db(news, author, content, data)
+    CommentDAO.create_comment_db(news, author, content, data)
+    return templates.TemplateResponse('greate/comment_create.html',
+                                      {'request': request})
 
 
 # Методы обновления
