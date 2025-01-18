@@ -46,5 +46,62 @@
         <DatePicker/>
         <button type="submit", class="my-button">Создать запись</button>
     </form>
+    <h1>Изменить запись News</h1>
+    <form id="neForm">
+        <label for="id">Id:</label>
+        <input type="number", id="id", name="id" required><br><br>
+
+        <label for="heading">Heading:</label>
+        <input type="text", id="heading", name="heading" required><br><br>
+
+        <label for="Content">Content:</label>
+        <input type="text", id="content", name="content" required><br><br>
+
+        <label for="Author">Author:</label>
+        <input type="text", id="author", name="author" required><br><br>
+
+        <label for="Data">Data:</label>
+        <input type="datetime", id="data", name="data" required><br><br>
+
+        <button type="button", onclick=updateNews()>Изменить данные</button>
+    </form>
+    <script>
+        function updateNews() {
+            const form = document.getElementById('neForm');
+            const newId = form.id.value;
+            console.log('New Id', newId);
+            if (!newId) {
+                alert('Пожалуйста, введите ID пользователя')
+                return;
+            }
+            const data = {
+                heading: form.heading.value,
+                content: form.content.value,
+                author: form.author.value,
+                data: form.data.value
+            };
+
+            fetch(`http://127.0.0.1:8000/news/${newId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка при обновлении данных');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Данные успешно обновлены');
+            })
+            .catch((error) => {
+                console.error('Произошка ошибка:', error);
+                alert('Не удалось обновить данные')
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,9 +1,11 @@
 ''' main для fastapi + mysql'''
 from datetime import datetime
+from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, Request, Form
-from connect import db
+from fastapi import FastAPI, Request, Form, HTTPException
+from peewee import DoesNotExist
+from connect import db, Users, Roles, News, Comments
 from dao.user_dao import UsersDAO
 from dao.rol_dao import RolesDAO
 from dao.news_dao import NewsDAO
@@ -18,7 +20,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get('/', response_class=HTMLResponse)
 async def main(request: Request):
-    ''' Получение всех users'''
+    ''' Получение всех'''
     return templates.TemplateResponse("main.html", {'request': request})
 
 
@@ -96,30 +98,90 @@ def create_comment(request: Request,
 
 # Методы обновления
 
+
+class UserUpdate(BaseModel):
+    ''' kjkj'''
+    role_id: int
+    username: str
+    password: str
+
+
 @app.put('/users/{user_id}')
-def update_user(user_id: int, role_id: int, username: str, password: str):
+def update_user(user_id: int, user_data: UserUpdate):
     ''' Обновление пользователя '''
-    return UsersDAO.update_users_db(user_id, role_id, username, password)
+    try:
+        user = Users.get(Users.id == user_id)
+        user.role_id = user_data.role_id
+        user.username = user_data.username
+        user.password = user_data.password
+        user.save()
+        return {"message": "Данные пользователя обновлены"}
+    except DoesNotExist as e:
+        raise HTTPException(
+            status_code=404, detail="Пользователь не найден") from e
+
+
+class RolesUpdate(BaseModel):
+    ''' мг'''
+    name: str
 
 
 @app.put('/roles/{rol_id}')
-def update_roles(rol_id: int, name: str):
+def update_roles(rol_id: int, rol_data: RolesUpdate):
     ''' обновление roles'''
-    return RolesDAO.update_roles_db(rol_id, name)
+    try:
+        rol = Roles.get(Roles.id == rol_id)
+        rol.name = rol_data.name
+        rol.save()
+        return {"message": "Данные пользователя обновлены"}
+    except DoesNotExist as e:
+        raise HTTPException(
+            status_code=404, detail="Пользователь не найден") from e
+
+
+class NewsUpdate(BaseModel):
+    ''' lk'''
+    heading: str
+    content: str
+    author: str
+    data: datetime
 
 
 @app.put('/news/{new_id}')
-def update_news(new_id: int, heading: str,
-                content: str, author: str, data: datetime):
+def update_news(new_id: int, new_data: NewsUpdate):
     ''' Обновление news'''
-    return NewsDAO.update_news_db(new_id, heading, content, author, data)
+    try:
+        new = News.get(News.id == new_id)
+        new.heading = new_data.heading
+        new.content = new_data.content
+        new.author = new_data.author
+        new.data = new_data.data
+        new.save()
+        return {'message': "Данные успешно обновленны"}
+    except DoesNotExist as e:
+        raise HTTPException(
+            status_code=404, detail="Пользователь не найден") from e
+
+
+class CommentUpdate(BaseModel):
+    ''' kj'''
+    news: str
+    author: str
+    content: str
+    data: datetime
 
 
 @app.put('/comment/{com_id}')
-def update_comment(com_id: int, news: str,
-                   author: str, content: str, data: datetime):
+def update_comment(com_id: int, com_data: CommentUpdate):
     ''' Обновление comment'''
-    return CommentDAO.update_comment_db(com_id, news, author, content, data)
+    com = Comments.get(Comments.id == com_id)
+    com.news = com_data.news
+    com.author = com_data.author
+    com.content = com_data.content
+    com.data = com_data.data
+    com.save()
+    return {'message': 'Данные успешно обновленны'}
+
 
 # методы удаления
 

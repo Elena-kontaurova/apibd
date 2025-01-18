@@ -32,7 +32,7 @@
         Вернутся на главную
     </button>
     <h1>Создать запись пользователя</h1>
-    <form id="userForm" method="post" action="http://127.0.0.1:8000/user_create">
+    <form id="usersForm" method="post" action="http://127.0.0.1:8000/user_create">
         <label for="role_id">ID роли:</label>
         <input type="number" id="role_id" name="role_id" required><br><br>
         
@@ -46,6 +46,59 @@
     </form>
 
     <h1>Обновить информацию о пользователе</h1>
+    <form id="userForm">
+        <label for="id">ID</label>
+        <input type="number" id="id" name="id" required><br><br>
+        
+        <label for="role_id">ID роли:</label>
+        <input type="number" id="role_id" name="role_id" required><br><br>
+        
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required><br><br>
     
+        <button type="button" onclick="updateUser()">Изменить данные</button>
+    </form>
+    <script>
+        function updateUser() {
+            const form = document.getElementById('userForm');
+
+            const userId = form.id.value;
+            console.log("User ID:", userId);
+            if (!userId) {
+                alert("Пожалуйста, введите ID пользователя");
+                return;
+            }
+
+            const data = {
+                role_id: parseInt(form.role_id.value),
+                username: form.username.value,
+                password: form.password.value 
+            };
+
+            fetch(`http://127.0.0.1:8000/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка при обновлении данных');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Данные успешно обновлены!');
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка:', error);
+                alert('Не удалось обновить данные');
+            });
+        }
+    </script>
 </body>
 </html>
