@@ -100,5 +100,30 @@
             });
         }
     </script>
+    <h1>Удалене записи Users</h1>
+    <form id="usForm">
+        <label for="Id">ID:</label>
+        <input type="number", id="id", name="id"><br><br>
+
+        <button type="button", onclick=delUser()>Удалить запись</button>
+    </form>
+    <script>
+        function delUser() {
+            const form = document.getElementById('usForm');
+            const userId = form.id.value;
+            fetch(`http://127.0.0.1:8000/del_users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                alert('Запись успешно удалена');
+            })
+        }
+    </script>
 </body>
 </html>

@@ -81,5 +81,30 @@
             });
         }
     </script>
+    <h1>Удалить запись Roles</h1>
+    <form id="roForm">
+        <label for="Id">ID:</label>
+        <input type="number", id="id", name="id"><br><br>
+
+        <button type="button", onclick=delRol()>Удалить запись</button>
+    </form>
+    <script>
+        function delRol() {
+            const form = document.getElementById('roForm')
+            const roId = form.id.value;
+            fetch(`http://127.0.0.1:8000/del_roles/${roId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                alert('Запись успешно удалена')
+            })
+        }
+    </script>
 </body>
 </html>

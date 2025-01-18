@@ -102,5 +102,30 @@
             });
         }
     </script>
+    <h1>Удаление записи Comment</h1>
+    <form id="coForm">
+        <label for="Id">ID:</label>
+        <input type="number", id="id", name="id"><br><br>
+
+        <button type="button", onclick=comDel()>Удалить запись</button>
+    </form>
+    <script>
+        function comDel() {
+            const form = document.getElementById('coForm')
+            const coId = form.id.value
+            fetch(`http://127.0.0.1:8000/del_comment/${coId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                return response.json
+            })
+            .then(data => {
+                alert('Запись успешно удалена')
+            })
+        }
+    </script>
 </body>
 </html>

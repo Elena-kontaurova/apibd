@@ -103,5 +103,30 @@
             });
         }
     </script>
+    <h1>Удалить запись News</h1>
+    <form id="nForm">
+        <label for="Id">ID:</label>
+        <input type="number", id="id", name="id"><br><br>
+
+        <button type="button", onclick=newDel()>Удалить запись</button>
+    </form>
+    <script>
+        function newDel() {
+            const form = document.getElementById('nForm')
+            const nId = form.id.value
+            fetch(`http://127.0.0.1:8000/del_news/${nId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                return response.json
+            })
+            .then(data => {
+                alert('Записть успешно удалена')
+            })
+        }
+    </script>
 </body>
 </html>
