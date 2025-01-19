@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport", content="width=device-width, initial-scale=1.0">
-    <title>Table Comment</title>
+    <meta name="viewport" , content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/comment.css">
 </head>
+
 <body>
     <h1>Таблица Comment</h1>
     <table border="1">
@@ -30,102 +32,49 @@
         </tbody>
     </table>
     <br>
-    <button class="my-button", onclick="window.location.href='http://127.0.0.1:8000/'">
+    <button class="my-button" , onclick="window.location.href='http://127.0.0.1:8000/'">
         Вернутся на главную
     </button>
     <h1>Создать запись Comment</h1>
-    <form id="commentForm", method="post", action="http://127.0.0.1:8000/comment_create">
+    <form id="commentForm" , method="post" , action="http://127.0.0.1:8000/comment_create">
         <label for="news">News:</label>
-        <input type="text", id="news", name="news"><br><br>
+        <input type="text" , id="news" , name="news"><br><br>
         <label for="author">Author:</label>
-        <input type="text", id="author", name="author"><br><br>
+        <input type="text" , id="author" , name="author"><br><br>
         <label for="content">Content:</label>
-        <input type="text", id="content", name="content"><br><br>
+        <input type="text" , id="content" , name="content"><br><br>
         <label for="data">Data:</label>
-        <input type="datetime", id="data", name="data"><br><br>
+        <input type="datetime" , id="data" , name="data"><br><br>
 
-        <button type="submit", class="my-button">Создать запись</button>
+        <button type="submit" , class="my-button">Создать запись</button>
     </form>
     <h1>Обновить данные</h1>
     <form id="comForm">
         <label for="id">Id:</label>
-        <input type="number", id="id", name="id" required><br><br>
+        <input type="number" , id="id" , name="id" required><br><br>
 
         <label for="News">News:</label>
-        <input type="text", id="news", name="news" required><br><br>
+        <input type="text" , id="news" , name="news" required><br><br>
 
         <label for="Author">Author:</label>
-        <input type="text", id="author", name="author" required><br><br>
+        <input type="text" , id="author" , name="author" required><br><br>
 
         <label for="Content">Content:</label>
-        <input type="text", id="content", name="content" required><br><br>
+        <input type="text" , id="content" , name="content" required><br><br>
 
         <label for="Data">Data:</label>
-        <input type="datetime", id="data", name="data" required><br><br>
+        <input type="datetime" , id="data" , name="data" required><br><br>
 
-        <button type="button", onclick=updateComment()>Изменить данные</button>
+        <button type="button" , class="my-button" ,onclick=updateComment()>Изменить данные</button>
     </form>
-    <script>
-        function updateComment() {
-            const form = document.getElementById('comForm');
-            const comId = form.id.value;
-            console.log('Comment Id', comId);
-            if (!comId) {
-                alert('Пожалуйста, введите ID');
-                return;
-            }
-            const data = {
-                news: form.news.value,
-                author: form.author.value,
-                content: form.content.value,
-                data: form.data.value
-            };
-            fetch(`http://127.0.0.1:8000/comment/${comId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при обновлении данных');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('Данные успешно обновлены')
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка:', error);
-                alert('Не удалось обновить данные');
-            });
-        }
-    </script>
     <h1>Удаление записи Comment</h1>
     <form id="coForm">
         <label for="Id">ID:</label>
-        <input type="number", id="id", name="id"><br><br>
+        <input type="number" , id="id" , name="id"><br><br>
 
-        <button type="button", onclick=comDel()>Удалить запись</button>
+        <button type="button" ,class="my-button" , onclick=comDel()>Удалить запись</button>
     </form>
-    <script>
-        function comDel() {
-            const form = document.getElementById('coForm')
-            const coId = form.id.value
-            fetch(`http://127.0.0.1:8000/del_comment/${coId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                return response.json
-            })
-            .then(data => {
-                alert('Запись успешно удалена')
-            })
-        }
-    </script>
+    <script src="/static/comment.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users table</title>
+    <link rel="stylesheet" href="/static/users.css">
 </head>
+
 <body>
     <h1>Список пользователей</h1>
     <table border="1">
@@ -28,102 +31,46 @@
         </tbody>
     </table>
     <br>
-    <button class="my-button", onclick="window.location.href='http://127.0.0.1:8000/'">
+    <button class="my-button" , onclick="window.location.href='http://127.0.0.1:8000/'">
         Вернутся на главную
     </button>
     <h1>Создать запись пользователя</h1>
     <form id="usersForm" method="post" action="http://127.0.0.1:8000/user_create">
         <label for="role_id">ID роли:</label>
         <input type="number" id="role_id" name="role_id" required><br><br>
-        
+
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" required><br><br>
-        
+
         <label for="password">Пароль:</label>
         <input type="password" id="password" name="password" required><br><br>
 
         <button type="submit" class="my-button">Создать запись</button>
     </form>
-
     <h1>Обновить информацию о пользователе</h1>
     <form id="userForm">
         <label for="id">ID</label>
         <input type="number" id="id" name="id" required><br><br>
-        
+
         <label for="role_id">ID роли:</label>
         <input type="number" id="role_id" name="role_id" required><br><br>
-        
+
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" required><br><br>
-        
+
         <label for="password">Пароль:</label>
         <input type="password" id="password" name="password" required><br><br>
-    
-        <button type="button" onclick="updateUser()">Изменить данные</button>
+
+        <button type="button" , class="my-button" , onclick="updateUser()">Изменить данные</button>
     </form>
-    <script>
-        function updateUser() {
-            const form = document.getElementById('userForm');
-
-            const userId = form.id.value;
-            console.log("User ID:", userId);
-            if (!userId) {
-                alert("Пожалуйста, введите ID пользователя");
-                return;
-            }
-
-            const data = {
-                role_id: parseInt(form.role_id.value),
-                username: form.username.value,
-                password: form.password.value 
-            };
-
-            fetch(`http://127.0.0.1:8000/users/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при обновлении данных');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('Данные успешно обновлены!');
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка:', error);
-                alert('Не удалось обновить данные');
-            });
-        }
-    </script>
     <h1>Удалене записи Users</h1>
     <form id="usForm">
         <label for="Id">ID:</label>
-        <input type="number", id="id", name="id"><br><br>
+        <input type="number" , id="id" , name="id"><br><br>
 
-        <button type="button", onclick=delUser()>Удалить запись</button>
+        <button type="button" , class="my-button" , onclick=delUser()>Удалить запись</button>
     </form>
-    <script>
-        function delUser() {
-            const form = document.getElementById('usForm');
-            const userId = form.id.value;
-            fetch(`http://127.0.0.1:8000/del_users/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                alert('Запись успешно удалена');
-            })
-        }
-    </script>
+    <script src="/static/users.js"></script>
 </body>
+
 </html>
