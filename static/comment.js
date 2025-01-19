@@ -35,8 +35,8 @@ function updateComment() {
 }
 
 function comDel() {
-    const form = document.getElementById('coForm')
-    const coId = form.id.value
+    const form = document.getElementById("coForm");
+    const coId = form.id.value;
     fetch(`http://127.0.0.1:8000/del_comment/${coId}`, {
             method: 'DELETE',
             headers: {
@@ -44,7 +44,7 @@ function comDel() {
             }
         })
         .then(response => {
-            return response.json
+            return response.json()
         })
         .then(data => {
             alert('Запись успешно удалена')

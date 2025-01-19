@@ -1,5 +1,7 @@
 ''' peewee'''
+from datetime import datetime
 from peewee import MySQLDatabase, Model, IntegerField, CharField, DateTimeField
+from pydantic import BaseModel
 
 
 db = MySQLDatabase('apibd', user='root', password='lenok',
@@ -48,3 +50,31 @@ class Comments(Database):
 db.connect()
 db.create_tables([Users, Roles, News, Comments], safe=True)
 db.close()
+
+
+class UserUpdate(BaseModel):
+    ''' kjkj'''
+    role_id: int
+    username: str
+    password: str
+
+
+class RolesUpdate(BaseModel):
+    ''' мг'''
+    name: str
+
+
+class NewsUpdate(BaseModel):
+    ''' lk'''
+    heading: str
+    content: str
+    author: str
+    data: datetime
+
+
+class CommentUpdate(BaseModel):
+    ''' kj'''
+    news: str
+    author: str
+    content: str
+    data: datetime

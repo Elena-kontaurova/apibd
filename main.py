@@ -1,12 +1,12 @@
 ''' main для fastapi + mysql'''
 from datetime import datetime
-from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, Request, Form, HTTPException
 from peewee import DoesNotExist
-from connect import db, Users, Roles, News, Comments
+from connect import db, Users, Roles, News, Comments, UserUpdate, \
+                    NewsUpdate, CommentUpdate, RolesUpdate
 from dao.user_dao import UsersDAO
 from dao.rol_dao import RolesDAO
 from dao.news_dao import NewsDAO
@@ -101,13 +101,6 @@ def create_comment(request: Request,
 # Методы обновления
 
 
-class UserUpdate(BaseModel):
-    ''' kjkj'''
-    role_id: int
-    username: str
-    password: str
-
-
 @app.put('/users/{user_id}')
 def update_user(user_id: int, user_data: UserUpdate):
     ''' Обновление пользователя '''
@@ -123,11 +116,6 @@ def update_user(user_id: int, user_data: UserUpdate):
             status_code=404, detail="Пользователь не найден") from e
 
 
-class RolesUpdate(BaseModel):
-    ''' мг'''
-    name: str
-
-
 @app.put('/roles/{rol_id}')
 def update_roles(rol_id: int, rol_data: RolesUpdate):
     ''' обновление roles'''
@@ -139,14 +127,6 @@ def update_roles(rol_id: int, rol_data: RolesUpdate):
     except DoesNotExist as e:
         raise HTTPException(
             status_code=404, detail="Пользователь не найден") from e
-
-
-class NewsUpdate(BaseModel):
-    ''' lk'''
-    heading: str
-    content: str
-    author: str
-    data: datetime
 
 
 @app.put('/news/{new_id}')
@@ -163,14 +143,6 @@ def update_news(new_id: int, new_data: NewsUpdate):
     except DoesNotExist as e:
         raise HTTPException(
             status_code=404, detail="Пользователь не найден") from e
-
-
-class CommentUpdate(BaseModel):
-    ''' kj'''
-    news: str
-    author: str
-    content: str
-    data: datetime
 
 
 @app.put('/comment/{com_id}')
